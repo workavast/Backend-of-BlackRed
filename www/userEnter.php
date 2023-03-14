@@ -9,17 +9,15 @@
         $foundResult = mysqli_fetch_assoc($result);
     
         if($foundResult == null){
-            echo("not found");
-            exit();
+            return false;
         }
         
-        if($foundResult['password'] != $userpassword)
-            echo("uncorrect password");
+        if($foundResult['password'] == $userpassword)
+            return true;
         else
-            echo("all good");
+            return false;
+
         
         mysqli_report(MYSQLI_REPORT_ERROR | MYSQLI_REPORT_STRICT);
     }
-
-
 ?>
