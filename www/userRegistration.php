@@ -1,25 +1,22 @@
 <?php
     function UserRegistraion($userName, $userPassword, $connection)
     {
-        $query = "INSERT into users (name, password) VALUES ('$userName', '$userPassword')";
+        $userINSERT = "INSERT into users (name, password) VALUES ('$userName', '$userPassword')";
+        $levelsTimesINSERT = "INSERT into levelstimes (user_id) VALUES (LAST_INSERT_ID())";
 
-        if($connection->query($query)){
-            $user_id = $connection->insert_id;
-            $query = "INSERT into levelstimes (user_id) VALUES ('$user_id')";
-
-            if($connection->query($query)){
-                return "Complited";
-            }
-            else{
-                $error = $connection->error;
-                $query = "DELETE FROM users WHERE idUsers='$user_id'";
-                return "Error" . $error;
-            }
+        $connection->query("START TRANSACTION");
+        $userResult = $connection->query($userINSERT);
+        $levelsTimesResult = $connection->query($levelsTimesINSERT);
+        
+        if($userResult && $levelsTimesResult){
+            $connection->query("COMMIT");
+            return true;
         }
         else{
-            return "Error" . $connection->error;
+            $connection->query("ROLLBACK");
+            return false;
         }
-    
+   
         mysqli_report(MYSQLI_REPORT_ERROR | MYSQLI_REPORT_STRICT);
     }
 ?>

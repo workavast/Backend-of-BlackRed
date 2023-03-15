@@ -10,7 +10,12 @@
             $userName = $_POST['name'];
             if(!UserExistCheck($userName, $connection)){
                 $userPassword = $_POST['password'];
-                echo(UserRegistraion($userName, $userPassword, $connection));
+                if(UserRegistraion($userName, $userPassword, $connection)){
+                    echo('Complited');
+                }
+                else{
+                    echo('Some error');
+                }
             }
             else{
                 echo('This name is occupied');
