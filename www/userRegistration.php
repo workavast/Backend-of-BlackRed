@@ -4,12 +4,16 @@
         $query = "INSERT into users (name, password) VALUES ('$userName', '$userPassword')";
 
         if($connection->query($query)){
-            $query = "INSERT into levelstimes (user_id) VALUES (LAST_INSERT_ID())";
+            $user_id = $connection->insert_id;
+            $query = "INSERT into levelstimes (user_id) VALUES ('$user_id')";
+
             if($connection->query($query)){
                 return "Complited";
             }
             else{
-                return "Error" . $connection->error;
+                $error = $connection->error;
+                $query = "DELETE FROM users WHERE idUsers='$user_id'";
+                return "Error" . $error;
             }
         }
         else{
