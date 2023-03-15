@@ -4,7 +4,13 @@
         $query = "INSERT into users (name, password) VALUES ('$userName', '$userPassword')";
 
         if($connection->query($query)){
-            return "Complited";
+            $query = "INSERT into levelstimes (user_id) VALUES (LAST_INSERT_ID())";
+            if($connection->query($query)){
+                return "Complited";
+            }
+            else{
+                return "Error" . $connection->error;
+            }
         }
         else{
             return "Error" . $connection->error;
