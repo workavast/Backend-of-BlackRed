@@ -1,5 +1,5 @@
 <?php
-    function UserEnter($username, $userpassword, $connection)
+    function UserEnter($username, $userpassword, $connection, &$json)
     {
         $query = "SELECT * FROM users WHERE name = '$username'";
     
@@ -12,8 +12,20 @@
             return false;
         }
         
-        if($foundResult['password'] == $userpassword)
+        if($foundResult['password'] == $userpassword){
+            $jsonArray = array(
+                "id" => $foundResult['idUsers'],
+                "name" => $foundResult['name']
+            );
+            $json = json_encode($jsonArray);
+
+            // $json .= "\"id\":".$foundResult['idUsers'];
+            // $json .= ",";
+            // $json .= "\"name\":\"".$foundResult['name']."\"";
+            // $json .= "}";
+
             return true;
+        }
         else
             return false;
 

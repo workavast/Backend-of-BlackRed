@@ -5,12 +5,14 @@
     include("userEnter.php");
 
     $command = $_POST['Command'];
+    $json = "";
     switch($command){
         case 'UserRegistration':
             $userName = $_POST['name'];
             if(!UserExistCheck($userName, $connection)){
                 $userPassword = $_POST['password'];
-                if(UserRegistraion($userName, $userPassword, $connection)){
+                if(UserRegistraion($userName, $userPassword, $connection, $json)){
+                    echo($json);
                     http_response_code(200);//Complited
                 }
                 else{
@@ -24,7 +26,8 @@
 
         case 'UserEnter':
             if(UserExistCheck($_POST['name'], $connection)){
-                if(UserEnter($_POST['name'], $_POST['password'], $connection)){
+                if(UserEnter($_POST['name'], $_POST['password'], $connection, $json)){
+                    echo($json);
                     http_response_code(200);//Complited
                 }else{
                     http_response_code(401);//Not correct password
