@@ -11,27 +11,27 @@
             if(!UserExistCheck($userName, $connection)){
                 $userPassword = $_POST['password'];
                 if(UserRegistraion($userName, $userPassword, $connection)){
-                    echo('Complited');
+                    http_response_code(200);//Complited
                 }
                 else{
-                    echo('Some error');
+                    http_response_code(520);//Some error, try again
                 }
             }
             else{
-                echo('This name is occupied');
+                http_response_code(409);//This name is occupied
             }
             break;
 
         case 'UserEnter':
             if(UserExistCheck($_POST['name'], $connection)){
-                if(!UserEnter($_POST['name'], $_POST['password'], $connection)){
-                    echo('Not correct password');
+                if(UserEnter($_POST['name'], $_POST['password'], $connection)){
+                    http_response_code(200);//Complited
                 }else{
-                    echo('Complited');
+                    http_response_code(401);//Not correct password
                 }
             }
             else{
-                echo('This name dont exist');
+                http_response_code(404);//This name dont exist
             }
             break;
     }
