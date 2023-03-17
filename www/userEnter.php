@@ -14,15 +14,10 @@
         
         if($foundResult['password'] == $userpassword){
             $jsonArray = array(
-                "id" => $foundResult['idUsers'],
+                "id" => $foundResult['id'],
                 "name" => $foundResult['name']
             );
             $json = json_encode($jsonArray);
-
-            // $json .= "\"id\":".$foundResult['idUsers'];
-            // $json .= ",";
-            // $json .= "\"name\":\"".$foundResult['name']."\"";
-            // $json .= "}";
 
             return true;
         }

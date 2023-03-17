@@ -1,7 +1,6 @@
 <?php
     function UserRegistraion($userName, $userPassword, $connection, &$json)
     {
-        $idUsers = "";
         $userINSERT = "INSERT into users (name, password) VALUES ('$userName', '$userPassword')";
         $levelsTimesINSERT = "INSERT into levelstimes (user_id) VALUES (LAST_INSERT_ID())";
 
@@ -18,11 +17,6 @@
                 "name" => $userName
             );
             $json = json_encode($jsonArray);
-
-            // $json .= "\"id\":".$idUsers;
-            // $json .= ",";
-            // $json .= "\"name\":\"".$userName."\"";
-            // $json .= "}";
 
             return true;
         }
