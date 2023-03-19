@@ -1,4 +1,6 @@
 <?php
+    include("levelsTimes.php");
+
     function UserEnter($username, $userpassword, $connection, &$json)
     {
         $query = "SELECT * FROM users WHERE name = '$username'";
@@ -17,9 +19,13 @@
                 "id" => $foundResult['id'],
                 "name" => $foundResult['name']
             );
-            $json = json_encode($jsonArray);
-
-            return true;
+            
+            if(LevelsTimes($foundResult['id'], $connection, $jsonArray)){
+                $json = json_encode($jsonArray);
+                return true;
+            }else{
+                return false;
+            }
         }
         else
             return false;
