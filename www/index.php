@@ -3,6 +3,7 @@
     include("config.php");
     include("userRegistration.php");
     include("userEnter.php");
+    include("points.php");
 
     $command = $_POST['Command'];
     $json = "";
@@ -39,8 +40,14 @@
             break;
         case 'UpdateLevelTime':
             if(UpdateLevelTime((int)$_POST['user_id'], $_POST['levelName'], (float)$_POST['time'], $connection)){
-                echo($_POST['time']);
-                echo((float)$_POST['time']);
+                http_response_code(200);//Complited
+            }
+            else{
+                http_response_code(520);//Some error, try again
+            }
+            break;
+        case 'SavePoints':
+            if(SavePoints((int)$_POST['user_id'], (int)$_POST['levelNum'], $_POST['points'] ,$connection)){
                 http_response_code(200);//Complited
             }
             else{
