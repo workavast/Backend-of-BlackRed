@@ -8,16 +8,15 @@
         mysqli_report(MYSQLI_REPORT_ERROR | MYSQLI_REPORT_STRICT);
         $foundResult = mysqli_fetch_assoc($result);
     
-        if($foundResult == null){
+        if($foundResult == null)
             return false;
-        }else{
-            $jsonArray["levels"] = array(
-                array("num" => 1,"time" => $foundResult['level_1']),
-                array("num" => 2,"time" => $foundResult['level_2']),
-                array("num" => 3,"time" => $foundResult['level_3'])
-            );   
-            return true;
-        }
+
+        $jsonArray["levels"] = array(
+            array("num" => 1,"time" => $foundResult['level_1']),
+            array("num" => 2,"time" => $foundResult['level_2']),
+            array("num" => 3,"time" => $foundResult['level_3'])
+        );   
+        return true;
         
         mysqli_report(MYSQLI_REPORT_ERROR | MYSQLI_REPORT_STRICT);
     }
@@ -30,12 +29,6 @@
     
         mysqli_report(MYSQLI_REPORT_ERROR | MYSQLI_REPORT_STRICT);
     
-        if($result == null){
-            return false;
-        }else{
-            return true;
-        }
-        
-        mysqli_report(MYSQLI_REPORT_ERROR | MYSQLI_REPORT_STRICT);
+        return $result;
     }
 ?>

@@ -10,27 +10,34 @@
     switch($command){
         case 'UserRegistration':
             $userName = $_POST['name'];
-            if(!UserExistCheck($userName, $connection)){
+            if(!UserExistCheck($userName, $connection))
+            {
                 $userPassword = $_POST['password'];
-                if(UserRegistraion($userName, $userPassword, $connection, $json)){
+                if(UserRegistraion($userName, $userPassword, $connection, $json))
+                {
                     echo($json);
                     http_response_code(200);//Complited
                 }
-                else{
+                else
+                {
                     http_response_code(520);//Some error, try again
                 }
             }
-            else{
+            else
+            {
                 http_response_code(409);//This name is occupied
             }
             break;
 
         case 'UserEnter':
             if(UserExistCheck($_POST['name'], $connection)){
-                if(UserEnter($_POST['name'], $_POST['password'], $connection, $json)){
+                if(UserEnter($_POST['name'], $_POST['password'], $connection, $json))
+                {
                     echo($json);
                     http_response_code(200);//Complited
-                }else{
+                }
+                else
+                {
                     http_response_code(401);//Not correct password
                 }
             }
@@ -39,18 +46,22 @@
             }
             break;
         case 'UpdateLevelTime':
-            if(UpdateLevelTime((int)$_POST['user_id'], $_POST['levelName'], (float)$_POST['time'], $connection)){
+            if(UpdateLevelTime((int)$_POST['user_id'], $_POST['levelName'], (float)$_POST['time'], $connection))
+            {
                 http_response_code(200);//Complited
             }
-            else{
+            else
+            {
                 http_response_code(520);//Some error, try again
             }
             break;
         case 'SavePoints':
-            if(SavePoints((int)$_POST['user_id'], (int)$_POST['levelNum'], $_POST['points'] ,$connection)){
+            if(SavePoints((int)$_POST['user_id'], (int)$_POST['levelNum'], $_POST['points'] ,$connection))
+            {
                 http_response_code(200);//Complited
             }
-            else{
+            else
+            {
                 http_response_code(520);//Some error, try again
             }
             break;
@@ -66,13 +77,6 @@
         mysqli_report(MYSQLI_REPORT_ERROR | MYSQLI_REPORT_STRICT);
         $foundResult = mysqli_fetch_assoc($result);
 
-        if($foundResult){
-            return true;
-        }
-        else{
-            return false;
-        }
-               
-        mysqli_report(MYSQLI_REPORT_ERROR | MYSQLI_REPORT_STRICT);
+        return $foundResult;
     }
 ?>

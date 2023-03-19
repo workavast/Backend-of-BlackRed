@@ -9,7 +9,8 @@
         $idUsers = $connection->insert_id;
         $levelsTimesResult = $connection->query($levelsTimesINSERT);
         
-        if($userResult && $levelsTimesResult){
+        if($userResult && $levelsTimesResult)
+        {
             $connection->query("COMMIT");
 
             $jsonArray = array(
@@ -20,7 +21,8 @@
 
             return true;
         }
-        else{
+        else
+        {
             $connection->query("ROLLBACK");
             return false;
         }
