@@ -20,4 +20,24 @@
         $result = mysqli_query($connection, $query);
         return $result;
     }
+
+    function TakePoints($user_id, $levelNum, &$json, $connection)
+    {
+        $query = "SELECT * FROM points WHERE user_id = '$user_id' AND levelNum = '$levelNum'";
+        $result = mysqli_query($connection, $query);
+
+        mysqli_report(MYSQLI_REPORT_ERROR | MYSQLI_REPORT_STRICT);
+
+        if(mysqli_num_rows($result))
+        {
+            $foundResult = mysqli_fetch_assoc($result);
+            $json = $foundResult['way'];
+
+            return true;
+        }
+        else
+        {
+            return false;
+        }
+    }
 ?>

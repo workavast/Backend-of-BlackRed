@@ -65,6 +65,17 @@
                 http_response_code(520);//Some error, try again
             }
             break;
+        case 'TakePoints':
+            if(TakePoints((int)$_POST['user_id'], (int)$_POST['levelNum'], $json ,$connection))
+            {
+                echo($json);
+                http_response_code(200);//Complited
+            }
+            else
+            {
+                http_response_code(520);//Some error, try again
+            }
+            break;
     }
 
 
