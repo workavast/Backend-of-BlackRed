@@ -1,10 +1,9 @@
 <?php
-
-    include("config.php");
-    include("userRegistration.php");
-    include("userEnter.php");
+    include("connection.php");
+    include("user.php");
+    include("levelsTimes.php");
     include("points.php");
-
+    
     $command = $_POST['Command'];
     $json = "";
     switch($command){
@@ -45,6 +44,7 @@
                 http_response_code(404);//This name dont exist
             }
             break;
+
         case 'UpdateLevelTime':
             if(UpdateLevelTime((int)$_POST['user_id'], $_POST['levelName'], (float)$_POST['time'], $connection))
             {
@@ -55,6 +55,7 @@
                 http_response_code(520);//Some error, try again
             }
             break;
+
         case 'SavePoints':
             if(SavePoints((int)$_POST['user_id'], (int)$_POST['levelNum'], $_POST['points'] ,$connection))
             {
@@ -65,6 +66,7 @@
                 http_response_code(520);//Some error, try again
             }
             break;
+
         case 'TakePoints':
             if(TakePoints((int)$_POST['user_id'], (int)$_POST['levelNum'], $json ,$connection))
             {
@@ -76,6 +78,7 @@
                 http_response_code(520);//Some error, try again
             }
             break;
+            
         case 'TakeNearWay':
             if(TakeNearWay((int)$_POST['levelNum'], $_POST['levelName'], $_POST['time'], $json ,$connection))
             {
@@ -87,18 +90,5 @@
                 http_response_code(520);//Some error, try again
             }
             break;
-    }
-
-
-    function UserExistCheck($userName, $connection)
-    {
-        $query = "SELECT * FROM users WHERE name = '$userName'";
-
-        $result = mysqli_query($connection, $query);
-    
-        mysqli_report(MYSQLI_REPORT_ERROR | MYSQLI_REPORT_STRICT);
-        $foundResult = mysqli_fetch_assoc($result);
-
-        return $foundResult;
-    }
+    }    
 ?>
