@@ -40,4 +40,28 @@
             return false;
         }
     }
+
+    function TakeNearWay($levelNum, $levelName, $time, &$json ,$connection){
+        $timee = $time - 0.2;
+
+        $query = "SELECT * FROM levelstimes WHERE $levelName < $timee AND $levelName > 0 limit 1";
+
+        mysqli_report(MYSQLI_REPORT_ERROR | MYSQLI_REPORT_STRICT);
+
+        $result = mysqli_query($connection, $query);
+
+        if(mysqli_num_rows($result))
+        {
+            $foundResult = mysqli_fetch_assoc($result);
+            $user_id = $foundResult['user_id'];
+
+            TakePoints($user_id, $levelNum, $json, $connection);
+
+            return true;
+        }
+        else
+        {
+            return false;
+        }
+    }
 ?>

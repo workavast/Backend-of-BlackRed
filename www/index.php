@@ -76,6 +76,17 @@
                 http_response_code(520);//Some error, try again
             }
             break;
+        case 'TakeNearWay':
+            if(TakeNearWay((int)$_POST['levelNum'], $_POST['levelName'], $_POST['time'], $json ,$connection))
+            {
+                echo($json);
+                http_response_code(200);//Complited
+            }
+            else
+            {
+                http_response_code(520);//Some error, try again
+            }
+            break;
     }
 
 
