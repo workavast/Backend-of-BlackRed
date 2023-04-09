@@ -58,9 +58,14 @@
                 "id" => $idUsers,
                 "name" => $userName
             );
-            $json = json_encode($jsonArray);
 
-            return true;
+            if(LevelsTimes($idUsers, $connection, $jsonArray))
+            {
+                $json = json_encode($jsonArray);
+                return true;
+            }else{
+                return false;
+            }
         }
         else
         {
