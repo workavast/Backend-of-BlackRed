@@ -41,27 +41,45 @@
         }
     }
 
-    function TakeNearWay($levelNum, $levelName, $time, &$json ,$connection){
-        $timee = $time - 0.2;
+    function TakeNearWay($levelNum, $levelName, $playerTime, &$json ,$connection){
+        $time = $playerTime;
+        $foundWay = "";
+        $jsonWays = "";
+        $jsonWays = $jsonWays.'{"ways":[';
 
-        $query = "SELECT * FROM levelstimes WHERE $levelName < $timee AND $levelName > 0 limit 1";
+        for($n = 0; $n < 5; $n += 1){
+            $time = $time - 0.2;
 
-        mysqli_report(MYSQLI_REPORT_ERROR | MYSQLI_REPORT_STRICT);
+            $query = "SELECT * FROM levelstimes WHERE $levelName < $time AND $levelName > $time - $time/5 limit 1";
+    
+            mysqli_report(MYSQLI_REPORT_ERROR | MYSQLI_REPORT_STRICT);
+    
+            $result = mysqli_query($connection, $query);
+    
+            if(mysqli_num_rows($result))
+            {
+                if($n != 5 && $n != 0){
+                    $jsonWays = $jsonWays.",";
+                    $foundWay = "";
+                }
 
-        $result = mysqli_query($connection, $query);
-
-        if(mysqli_num_rows($result))
-        {
-            $foundResult = mysqli_fetch_assoc($result);
-            $user_id = $foundResult['user_id'];
-
-            TakePoints($user_id, $levelNum, $json, $connection);
-
-            return true;
+                $foundResult = mysqli_fetch_assoc($result);
+                $user_id = $foundResult['user_id'];
+                $time = $foundResult[$levelName];
+    
+                TakePoints($user_id, $levelNum, $foundWay, $connection);
+                $jsonWays = $jsonWays. $foundWay;
+            }
+            else
+            {
+                break;
+            }
         }
-        else
-        {
-            return false;
-        }
+
+
+        $jsonWays = $jsonWays.']}';
+        $json = $jsonWays;
+
+        return true;
     }
 ?>
