@@ -56,8 +56,8 @@
             }
             break;
 
-        case 'SavePoints':
-            if(SavePoints((int)$_POST['user_id'], (int)$_POST['levelNum'], $_POST['points'] ,$connection))
+        case 'SaveWay':
+            if(SaveWay((int)$_POST['user_id'], (int)$_POST['levelNum'], $_POST['points'] ,$connection))
             {
                 http_response_code(200);//Complited
             }
@@ -67,8 +67,8 @@
             }
             break;
 
-        case 'TakePoints':
-            if(TakePoints((int)$_POST['user_id'], (int)$_POST['levelNum'], $json ,$connection))
+        case 'TakePlayerWay':
+            if(TakePlayerWay((int)$_POST['user_id'], (int)$_POST['levelNum'], $json ,$connection))
             {
                 echo($json);
                 http_response_code(200);//Complited
@@ -79,8 +79,8 @@
             }
             break;
             
-        case 'TakeNearWay':
-            if(TakeNearWay((int)$_POST['levelNum'], $_POST['levelName'], $_POST['time'], $json ,$connection))
+        case 'TakeNearWays':
+            if(TakeNearWays((int)$_POST['levelNum'], $_POST['levelName'], $_POST['time'], $json ,$connection))
             {
                 echo($json);
                 http_response_code(200);//Complited

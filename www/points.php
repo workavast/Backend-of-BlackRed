@@ -1,7 +1,7 @@
 <?php
-    function SavePoints($user_id, $levelNum, $points, $connection)
+    function SaveWay($user_id, $levelNum, $way, $connection)
     {
-        $query = "SELECT * FROM points WHERE user_id = '$user_id' AND levelNum = '$levelNum'";
+        $query = "SELECT * FROM ways WHERE user_id = '$user_id' AND levelNum = '$levelNum'";
         $result = mysqli_query($connection, $query);
 
         mysqli_report(MYSQLI_REPORT_ERROR | MYSQLI_REPORT_STRICT);
@@ -9,21 +9,21 @@
         if(mysqli_num_rows($result))
         {
             $foundResult = mysqli_fetch_assoc($result);
-            $points_id = $foundResult['id'];
-            $query = "UPDATE points SET way = '$points' WHERE id = '$points_id'";
+            $way_id = $foundResult['id'];
+            $query = "UPDATE ways SET way = '$way' WHERE id = '$way_id'";
         }
         else
         {
-            $query = "INSERT into points (user_id, levelNum, way) VALUES ('$user_id', '$levelNum', '$points')";
+            $query = "INSERT into ways (user_id, levelNum, way) VALUES ('$user_id', '$levelNum', '$way')";
         }
     
         $result = mysqli_query($connection, $query);
         return $result;
     }
 
-    function TakePoints($user_id, $levelNum, &$json, $connection)
+    function TakePlayerWay($user_id, $levelNum, &$jsonWay, $connection)
     {
-        $query = "SELECT * FROM points WHERE user_id = '$user_id' AND levelNum = '$levelNum'";
+        $query = "SELECT * FROM ways WHERE user_id = '$user_id' AND levelNum = '$levelNum'";
         $result = mysqli_query($connection, $query);
 
         mysqli_report(MYSQLI_REPORT_ERROR | MYSQLI_REPORT_STRICT);
@@ -31,7 +31,7 @@
         if(mysqli_num_rows($result))
         {
             $foundResult = mysqli_fetch_assoc($result);
-            $json = $foundResult['way'];
+            $jsonWay = $foundResult['way'];
 
             return true;
         }
@@ -41,11 +41,11 @@
         }
     }
 
-    function TakeNearWay($levelNum, $levelName, $playerTime, &$json ,$connection){
+    function TakeNearWays($levelNum, $levelName, $playerTime, &$jsonWays ,$connection){
         $time = $playerTime;
         $foundWay = "";
-        $jsonWays = "";
-        $jsonWays = $jsonWays.'{"ways":[';
+        $ways = "";
+        $ways = $ways.'{"ways":[';
 
         for($n = 0; $n < 5; $n += 1){
             $time = $time - 0.2;
@@ -59,7 +59,7 @@
             if(mysqli_num_rows($result))
             {
                 if($n != 5 && $n != 0){
-                    $jsonWays = $jsonWays.",";
+                    $ways = $ways.",";
                     $foundWay = "";
                 }
 
@@ -67,8 +67,8 @@
                 $user_id = $foundResult['user_id'];
                 $time = $foundResult[$levelName];
     
-                TakePoints($user_id, $levelNum, $foundWay, $connection);
-                $jsonWays = $jsonWays. $foundWay;
+                TakePlayerWay($user_id, $levelNum, $foundWay, $connection);
+                $ways = $ways. $foundWay;
             }
             else
             {
@@ -76,9 +76,7 @@
             }
         }
 
-
-        $jsonWays = $jsonWays.']}';
-        $json = $jsonWays;
+        $jsonWays = $ways.']}';
 
         return true;
     }
