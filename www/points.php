@@ -21,7 +21,7 @@
         return $result;
     }
 
-    function TakePlayerWay($user_id, $levelNum, &$jsonWay, $connection)
+    function TakeWay($user_id, $levelNum, &$jsonWay, $connection)
     {
         $query = "SELECT * FROM ways WHERE user_id = '$user_id' AND levelNum = '$levelNum'";
         $result = mysqli_query($connection, $query);
@@ -41,15 +41,37 @@
         }
     }
 
-    function TakeNearWays($levelNum, $levelName, $playerTime, &$jsonWays ,$connection){
-        $time = $playerTime;
-        $foundWay = "";
-        $ways = "";
-        $ways = $ways.'{"ways":[';
+    function TakeWays($user_id, $levelNum, $playerTime, &$jsonWays, $connection){
+        $levelName = "";
+        switch($levelNum){
+            case '1':
+                $levelName = "level_1";
+                break;
+            case '2':
+                $levelName = "level_2";
+                break;
+            case '3':
+                $levelName = "level_3";
+                break;
+            default:
+                return false;
+        }
 
+
+        $foundWay = "";
+        $ways = '{"ways":[';
+
+        if(!TakeWay($user_id, $levelNum, $foundWay, $connection)){
+            return false;
+        }
+
+        $ways = $ways. $foundWay;
+
+        $time = $playerTime;
+            
         for($n = 0; $n < 5; $n += 1){
             $time = $time - 0.2;
-
+    
             $query = "SELECT * FROM levelstimes WHERE $levelName < $time AND $levelName > $time - $time/5 limit 1";
     
             mysqli_report(MYSQLI_REPORT_ERROR | MYSQLI_REPORT_STRICT);
@@ -58,7 +80,7 @@
     
             if(mysqli_num_rows($result))
             {
-                if($n != 5 && $n != 0){
+                if($n != 5){
                     $ways = $ways.",";
                     $foundWay = "";
                 }
@@ -67,7 +89,10 @@
                 $user_id = $foundResult['user_id'];
                 $time = $foundResult[$levelName];
     
-                TakePlayerWay($user_id, $levelNum, $foundWay, $connection);
+                if(!TakeWay($user_id, $levelNum, $foundWay, $connection)){
+                    return false;
+                }
+
                 $ways = $ways. $foundWay;
             }
             else

@@ -66,9 +66,8 @@
                 http_response_code(520);//Some error, try again
             }
             break;
-
-        case 'TakePlayerWay':
-            if(TakePlayerWay((int)$_POST['user_id'], (int)$_POST['levelNum'], $json ,$connection))
+        case 'TakeWays':
+            if(TakeWays($_POST['user_id'],(int)$_POST['levelNum'], $_POST['time'], $json ,$connection))
             {
                 echo($json);
                 http_response_code(200);//Complited
@@ -78,17 +77,7 @@
                 http_response_code(520);//Some error, try again
             }
             break;
-            
-        case 'TakeNearWays':
-            if(TakeNearWays((int)$_POST['levelNum'], $_POST['levelName'], $_POST['time'], $json ,$connection))
-            {
-                echo($json);
-                http_response_code(200);//Complited
-            }
-            else
-            {
-                http_response_code(520);//Some error, try again
-            }
-            break;
+        default :
+            http_response_code(520);
     }    
 ?>
