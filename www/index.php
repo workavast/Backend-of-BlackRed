@@ -2,7 +2,7 @@
     include("connection.php");
     include("user.php");
     include("levelsTimes.php");
-    include("points.php");
+    include("ways.php");
     
     $command = $_POST['Command'];
     $json = "";
