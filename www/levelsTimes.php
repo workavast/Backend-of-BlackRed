@@ -66,8 +66,13 @@
         $place = $foundResult['place'];
 
         $bordPos = $place % 10;
-        $moreFast = $bordPos - 1;
-        $lessFast = 10 - $bordPos;
+        if($bordPos == 0){
+            $moreFast = 9;
+            $lessFast = 0;
+        }else{
+            $moreFast = $bordPos - 1;
+            $lessFast = 10 - $bordPos;
+        }
 
         $query = "SELECT * FROM
                 (SELECT name, $levelName , ROW_NUMBER() OVER (ORDER BY $levelName) 'place' FROM users WHERE $levelName > 0) AS place
