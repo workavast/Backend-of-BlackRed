@@ -30,7 +30,7 @@
                 "name" => $foundResult['name']
             );
             
-            if(LevelsTimes($foundResult['id'], $connection, $jsonArray))
+            if(TakeLevelsTimes($foundResult['id'], $connection, $jsonArray))
             {
                 $json = json_encode($jsonArray);
                 return true;
@@ -43,23 +43,18 @@
     function UserRegistraion($userName, $userPassword, $connection, &$json)
     {
         $userINSERT = "INSERT into users (name, password) VALUES ('$userName', '$userPassword')";
-        $levelsTimesINSERT = "INSERT into levelstimes (user_id) VALUES (LAST_INSERT_ID())";
 
-        $connection->query("START TRANSACTION");
-        $userResult = $connection->query($userINSERT);
+        $userResult = mysqli_query($connection, $userINSERT);
         $idUsers = $connection->insert_id;
-        $levelsTimesResult = $connection->query($levelsTimesINSERT);
         
-        if($userResult && $levelsTimesResult)
+        if($userResult)
         {
-            $connection->query("COMMIT");
-
             $jsonArray = array(
                 "id" => $idUsers,
                 "name" => $userName
             );
 
-            if(LevelsTimes($idUsers, $connection, $jsonArray))
+            if(TakeLevelsTimes($idUsers, $connection, $jsonArray))
             {
                 $json = json_encode($jsonArray);
                 return true;
@@ -69,7 +64,6 @@
         }
         else
         {
-            $connection->query("ROLLBACK");
             return false;
         }
    

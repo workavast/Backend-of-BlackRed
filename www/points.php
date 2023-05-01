@@ -23,7 +23,7 @@
 
     function TakeWay($user_id, $levelNum, &$jsonWay, $connection)
     {
-        $query = "SELECT * FROM ways WHERE user_id = '$user_id' AND levelNum = '$levelNum'";
+        $query = "SELECT way FROM ways WHERE user_id = '$user_id' AND levelNum = '$levelNum'";
         $result = mysqli_query($connection, $query);
 
         mysqli_report(MYSQLI_REPORT_ERROR | MYSQLI_REPORT_STRICT);
@@ -72,7 +72,7 @@
         for($n = 0; $n < 5; $n += 1){
             $time = $time - 0.2;
     
-            $query = "SELECT * FROM levelstimes WHERE $levelName < $time AND $levelName > $time - $time/5 limit 1";
+            $query = "SELECT id, $levelName  FROM users WHERE $levelName < $time AND $levelName > $time - $time/5 limit 1";
     
             mysqli_report(MYSQLI_REPORT_ERROR | MYSQLI_REPORT_STRICT);
     
@@ -86,7 +86,7 @@
                 }
 
                 $foundResult = mysqli_fetch_assoc($result);
-                $user_id = $foundResult['user_id'];
+                $user_id = $foundResult['id'];
                 $time = $foundResult[$levelName];
     
                 if(!TakeWay($user_id, $levelNum, $foundWay, $connection)){
