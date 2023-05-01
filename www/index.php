@@ -57,7 +57,7 @@
             break;
 
         case 'SaveWay':
-            if(SaveWay((int)$_POST['user_id'], (int)$_POST['levelNum'], $_POST['points'] ,$connection))
+            if(SaveWay((int)$_POST['user_id'], (int)$_POST['levelNum'], $_POST['way'] ,$connection))
             {
                 http_response_code(200);//Complited
             }
@@ -67,7 +67,7 @@
             }
             break;
         case 'TakeWays':
-            if(TakeWays($_POST['user_id'],(int)$_POST['levelNum'], $_POST['time'], $json ,$connection))
+            if(TakeWays($_POST['user_id'],(int)$_POST['levelNum'], $_POST['levelName'], $_POST['time'], $json ,$connection))
             {
                 echo($json);
                 http_response_code(200);//Complited

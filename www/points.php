@@ -41,23 +41,7 @@
         }
     }
 
-    function TakeWays($user_id, $levelNum, $playerTime, &$jsonWays, $connection){
-        $levelName = "";
-        switch($levelNum){
-            case '1':
-                $levelName = "level_1";
-                break;
-            case '2':
-                $levelName = "level_2";
-                break;
-            case '3':
-                $levelName = "level_3";
-                break;
-            default:
-                return false;
-        }
-
-
+    function TakeWays($user_id, $levelNum, $levelName, $playerTime, &$jsonWays, $connection){
         $foundWay = "";
         $ways = '{"ways":[';
 
